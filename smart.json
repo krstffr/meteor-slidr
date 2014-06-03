@@ -3,6 +3,6 @@
   "description": "A super simple slideshow thing. Probably too simple for most people.",
   "homepage": "https://github.com/krstffr/slidr",
   "author": "Kristoffer Klintberg <krstffr@gmail.com>",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "git": "https://github.com/krstffr/slidr.git"
 }
