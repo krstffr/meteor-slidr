@@ -9,7 +9,7 @@ Package.onUse(function (api) {
 
 	api.versionsFrom("METEOR@0.9.0");
 
-	api.use(['jquery', 'underscore', 'reactive-var'], 'client');
+	api.use(['jquery', 'underscore', 'reactive-var@1.0.4'], 'client');
 
   api.addFiles('slidr.js', 'client');
 
