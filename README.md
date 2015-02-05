@@ -1,6 +1,6 @@
-# krstffr:slidr #
+# krstffr:slidr
 
-A super simple slideshow thing for Meteor. Here's how you use it:
+A simple slideshow (with support for multiple views).
 
 1. Install it. `meteor add krstffr:slidr`
 1. Create a wrapper DOM element for your slideshow (or more than one if you fancy more views!)
