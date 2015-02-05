@@ -1,4 +1,4 @@
-# slidr
+# krstffr:slidr #
 
 A super simple slideshow thing for Meteor. Here's how you use it:
 
