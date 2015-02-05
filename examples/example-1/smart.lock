@@ -1,0 +1,15 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "krstffr:slidr": {
+        "path": "../.."
+      }
+    },
+    "packages": {
+      "krstffr:slidr": {
+        "path": "../.."
+      }
+    }
+  }
+}
