@@ -21,12 +21,13 @@ Template.exampleTemplate.rendered = function () {
     }, {
       wrapper: this.find('.slide-show-2'),
       slides: this.findAll('.slide-show-2 .slide'),
+      fadeType: 'slide',
       simultaneousSlides: 2,
       pagination: {
-        wrapper: 'ul',
-        wrapperClass: 'ul-class',
-        indicators: 'li',
-        indicatorsClass: 'li-class',
+        wrapper: 'div',
+        wrapperClass: 'ul-class-3',
+        indicators: 'div',
+        indicatorsClass: 'li-class-3',
         paginationContent: '•'
       }
     }]

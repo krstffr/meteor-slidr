@@ -61,6 +61,11 @@ Template.exampleTemplate.rendered = function () {
       wrapper: this.find('.slide-show-2'),
       slides: this.findAll('.slide-show-2 .slide'),
       controls: this.findAll('.slide-show-2 .next-prev-btns'),
+      // If you want your slideshow to "slide" instead of "fadeIn"
+      // set fadeType to "slide"
+      // Remember to set the inner elements (slides) CSS to
+      // float: left; and display: block;
+      fadeType: 'slide',
       simultaneousSlides: 2,
       pagination: {
         wrapper: 'ul',
@@ -116,3 +121,4 @@ The HTML could look like this:
 
 * Currently all pagination items will contain 1, 2, 3 etc or a specific text the user sets. This should probably be more verstaile, for example: a,b,c etc.
 * Create tests!
+* Create a better looking example.

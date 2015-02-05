@@ -7,6 +7,18 @@
 	font-weight: bold;
 }
 
+.ul-class-3 {
+	text-align: center;
+}
+.li-class-3 {
+	font-size: 2em;
+	display: inline-block;
+	opacity: 0.2;
+}
+.li-class-3--active {
+	opacity: 1;
+}
+
 .next-prev-btns--inactive {
 	opacity: 0.1;
 	pointer-events: none;
@@ -53,4 +65,9 @@ body {
 	text-align: center;
 	font-weight: bold;
 	margin: 2em 0;
+}
+
+.slide-show-2 .slide {
+	display: block;
+	float: left;
 }
