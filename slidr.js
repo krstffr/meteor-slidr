@@ -87,6 +87,9 @@ Slidr = function ( options ) {
 		// Update the active paginations button
 		that.pagination.setActive();
 
+		// Update the prev/next buttons
+		that.nextPrevBtns.updateVisibility( viewOptions );
+
 	};
 
 	// Method for updating the visibilty of the slides
@@ -221,6 +224,9 @@ Slidr = function ( options ) {
 	// Handling of the next/prev buttons
 	that.nextPrevBtns = {};
 
+	// Set on that.nextPrevBtns.init()
+	that.nextPrevBtns.baseClass = false;
+
 	// Init the next/prev buyttons
 	that.nextPrevBtns.init = function( viewOptions ) {
 
@@ -230,7 +236,41 @@ Slidr = function ( options ) {
 
 		check( viewOptions.controls, Array );
 
+		that.nextPrevBtns.baseClass = $(viewOptions.controls).attr('class');
+
 		that.nextPrevBtns.bindEvents( viewOptions.controls );
+
+	};
+
+	that.nextPrevBtns.updateVisibility = function( viewOptions ) {
+
+		// If showControls is false, don't do nothing
+		if(!viewOptions.showControls)
+			return false;
+
+		// If this slideshow is a carousel, do nothing
+		if(that.carousel)
+			return false;
+
+		// Make sure the base class has been set
+		if (!that.nextPrevBtns.baseClass)
+			return false;
+		
+		var lastSlide = viewOptions.slides.length;
+		var lastSlideWithSimultaneous = lastSlide - viewOptions.simultaneousSlides;
+		var currentSlide = that.slides.active.get();
+
+		// Set the active class, and remove it from all elements
+		var activeClass = that.nextPrevBtns.baseClass + '--inactive';
+		$(viewOptions.controls).removeClass( activeClass );
+
+		// If the first slide is active, disable the first control
+		if (currentSlide === 0)
+			$(viewOptions.controls).first().addClass( activeClass );
+
+		// If the last slide (minust simultatneous) is active, disable the last control
+		if (currentSlide === lastSlideWithSimultaneous)
+			$(viewOptions.controls).last().addClass( activeClass );
 
 	};
 

@@ -14,6 +14,7 @@ Template.exampleTemplate.rendered = function () {
       pagination: {
         wrapper: 'ul',
         wrapperClass: 'ul-class',
+        showControls: false,
         indicators: 'li',
         indicatorsClass: 'li-class'
       }
@@ -39,7 +40,9 @@ Template.exampleTemplate.rendered = function () {
     views: [{
       wrapper: this.find('.another-slideshow'),
       slides: this.findAll('.another-slideshow .slide'),
+      controls: this.findAll('.another-slideshow .next-prev-btns'),
       simultaneousSlides: 1,
+      showControls: false,
       pagination: {
         wrapper: 'ul',
         wrapperClass: 'ul-class',

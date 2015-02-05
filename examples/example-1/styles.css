@@ -6,3 +6,8 @@
 	color: #f0f;
 	font-weight: bold;
 }
+
+.next-prev-btns--inactive {
+	opacity: 0.1;
+	pointer-events: none;
+}
