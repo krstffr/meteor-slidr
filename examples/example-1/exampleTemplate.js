@@ -53,4 +53,23 @@ Template.exampleTemplate.rendered = function () {
     }]
   });
 
+  var slideShow3 = new Slidr({
+    timer: 4500,
+    carousel: false,
+    views: [{
+      wrapper: this.find('.slider-slides'),
+      slides: this.findAll('.slider-slides .slide'),
+      controls: this.findAll('.slider-slides .next-prev-btns'),
+      controlsBaseClass: 'next-prev-btns',
+      fadeType: 'slide',
+      simultaneousSlides: 3
+    }, {
+      wrapper: this.find('.slider-slides-text-slides'),
+      slides: this.findAll('.slider-slides-text-slides .text-slide')
+    }]
+  });
+
+  
+
+
 };

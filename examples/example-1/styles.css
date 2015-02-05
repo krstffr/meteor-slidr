@@ -11,3 +11,46 @@
 	opacity: 0.1;
 	pointer-events: none;
 }
+
+body {
+	margin: 0;
+	padding: 0;
+}
+.slider-slides {
+	width: 75%;
+	margin: 0 auto;
+	display: block;
+	position: relative;
+}
+.slider-slides .slides {
+	overflow: hidden;
+}
+.slider-slides .slide {
+	display: block;
+	float: left;
+	background: #eee;
+	padding: 1em 0 0.7em;
+	border-right: 1px solid white;
+	text-align: center;
+}
+.slider-slides .next-prev-btns {
+	position: absolute;
+	bottom: 0.5em;
+	left: -2em;
+	cursor: pointer;
+	background: yellow;
+	color: black;
+	padding: 0.3em;
+}
+.slider-slides .next-prev-btns:hover {
+	color: red;
+}
+.slider-slides .next-prev-btns:last-child {
+	left: auto;
+	right: -2em;
+}
+.slider-slides-text-slides {
+	text-align: center;
+	font-weight: bold;
+	margin: 2em 0;
+}
