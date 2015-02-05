@@ -30,6 +30,12 @@ Template.exampleTemplate.rendered = function () {
       // Optional: If you've created two next/prev buttons,
       // set them using "controls"
       controls: this.findAll('.slide-show .next-prev-btns'),
+      // Optional: Used for setting inactive classes for
+      // the control buttons when first/last items are active
+      // in a non carousel slideshow.
+      // In this example the inactive control button will get
+      // the class "next-prev-btns--inactive"
+      controlsBaseClass: 'next-prev-btns',
       // Optional: How many slides should be visible at the
       // same time?
       simultaneousSlides: 2,

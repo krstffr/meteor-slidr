@@ -41,6 +41,7 @@ Template.exampleTemplate.rendered = function () {
       wrapper: this.find('.another-slideshow'),
       slides: this.findAll('.another-slideshow .slide'),
       controls: this.findAll('.another-slideshow .next-prev-btns'),
+      controlsBaseClass: 'next-prev-btns',
       simultaneousSlides: 1,
       showControls: false,
       pagination: {

@@ -224,9 +224,6 @@ Slidr = function ( options ) {
 	// Handling of the next/prev buttons
 	that.nextPrevBtns = {};
 
-	// Set on that.nextPrevBtns.init()
-	that.nextPrevBtns.baseClass = false;
-
 	// Init the next/prev buyttons
 	that.nextPrevBtns.init = function( viewOptions ) {
 
@@ -235,8 +232,6 @@ Slidr = function ( options ) {
 			return false;
 
 		check( viewOptions.controls, Array );
-
-		that.nextPrevBtns.baseClass = $(viewOptions.controls).attr('class');
 
 		that.nextPrevBtns.bindEvents( viewOptions.controls );
 
@@ -253,7 +248,7 @@ Slidr = function ( options ) {
 			return false;
 
 		// Make sure the base class has been set
-		if (!that.nextPrevBtns.baseClass)
+		if (!viewOptions.controlsBaseClass)
 			return false;
 		
 		var lastSlide = viewOptions.slides.length;
@@ -261,7 +256,7 @@ Slidr = function ( options ) {
 		var currentSlide = that.slides.active.get();
 
 		// Set the active class, and remove it from all elements
-		var activeClass = that.nextPrevBtns.baseClass + '--inactive';
+		var activeClass = viewOptions.controlsBaseClass + '--inactive';
 		$(viewOptions.controls).removeClass( activeClass );
 
 		// If the first slide is active, disable the first control
