@@ -70,8 +70,7 @@ Slidr = function ( options ) {
 
 	};
 
-	// Method for setting up the visibility of the slideshow's slides
-	that.slides.setupVisibility = function( viewOptions ) {
+	that.slides.fadeIn = function( viewOptions ) {
 
 		// Hide all slides
 		$(viewOptions.slides).hide();
@@ -82,7 +81,38 @@ Slidr = function ( options ) {
 
 		$(viewOptions.slides)
 		.slice( startSlideIndex, startSlideIndex+ss )
-		[viewOptions.fadeType]( viewOptions.fadeDuration );
+		.fadeIn( viewOptions.fadeDuration );
+
+	};
+
+	that.slides.slide = function( viewOptions ) {
+
+		// Check if slides are already wrapped, if not: wrap!
+		if ($(viewOptions.wrapper).find('.slider-inner-wrapper').length <1 )
+			$(viewOptions.slides).wrapAll('<div class="slider-inner-wrapper">');
+
+		// Set the width of the slides … 
+		$(viewOptions.slides)
+		.width( $(viewOptions.wrapper).width() / viewOptions.simultaneousSlides );
+
+		// …and the inner wrapper, also animate the slide!
+		$(viewOptions.wrapper)
+		.find('.slider-inner-wrapper')
+		.width( $(viewOptions.slides).outerWidth() * $(viewOptions.slides).length + 10 )
+		.animate({
+			marginLeft: -$(viewOptions.slides).outerWidth() * that.slides.active.get()-1
+		}, 150);
+
+	};
+
+	// Method for setting up the visibility of the slideshow's slides
+	that.slides.setupVisibility = function( viewOptions ) {
+
+		if (viewOptions.fadeType === 'fadeIn')
+			that.slides.fadeIn( viewOptions );
+
+		if (viewOptions.fadeType === 'slide')
+			that.slides.slide( viewOptions );
 
 		// Update the active paginations button
 		that.pagination.setActive();
