@@ -1,0 +1,8 @@
+.li-class--active {
+	color: #f00;
+}
+
+.li-class-2--active {
+	color: #f0f;
+	font-weight: bold;
+}

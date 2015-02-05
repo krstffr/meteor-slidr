@@ -3,30 +3,50 @@ if (Meteor.isServer)
 
 Template.exampleTemplate.rendered = function () {
 
-	var slideShowOptions = {
-    wrapper: this.find('.slide-show'),
-    slideSelector: '.slide',
-    controlsSelector: '.next-prev-btns',
-    // Will make the slides fadeIn( fadeSpeed ) instead of just show()
-    fadeSpeed: 250,
-    // The time in ms between automatic slide toggles. If you don't pass this the slides will only be changed manually.
-    timer: 6500,
-    // If you want to generate a 1-2-3 pagination for you slides, pass a pagination object like this
-    simultaneousItems: function () {
-			return 1;
-    },
-    pagination: {
-      // What HTML element do you want to wrap your pagination buttons?
-      wrapperEl: 'ul',
-      // What class do you want for the wrapper?
-      wrapperElCssClass: 'a-wrapper-css-class',
-      // What HTML element do you want for your actual pagination elements?
-      el: 'li',
-      // What class should the inner elements have?
-      elCssClass: 'an-inner-item-css-class'
-    }
+  var options = {
+    timer: 1500,
+    carousel: true,
+    views: [{
+      wrapper: this.find('.slide-show'),
+      slides: this.findAll('.slide-show .slide'),
+      controls: this.findAll('.slide-show .next-prev-btns'),
+      simultaneousSlides: 2,
+      pagination: {
+        wrapper: 'ul',
+        wrapperClass: 'ul-class',
+        indicators: 'li',
+        indicatorsClass: 'li-class'
+      }
+    }, {
+      wrapper: this.find('.slide-show-2'),
+      slides: this.findAll('.slide-show-2 .slide'),
+      simultaneousSlides: 2,
+      pagination: {
+        wrapper: 'ul',
+        wrapperClass: 'ul-class',
+        indicators: 'li',
+        indicatorsClass: 'li-class',
+        paginationContent: '•'
+      }
+    }]
   };
 
-  var slideShow = new slidr( slideShowOptions );
+  var slideShow = new Slidr( options );
+
+  var slideShow2 = new Slidr({
+    timer: 350,
+    carousel: false,
+    views: [{
+      wrapper: this.find('.another-slideshow'),
+      slides: this.findAll('.another-slideshow .slide'),
+      simultaneousSlides: 1,
+      pagination: {
+        wrapper: 'ul',
+        wrapperClass: 'ul-class',
+        indicators: 'li',
+        indicatorsClass: 'li-class-2'
+      }
+    }]
+  });
 
 };
