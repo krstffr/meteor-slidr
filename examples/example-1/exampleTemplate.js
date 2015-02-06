@@ -10,7 +10,7 @@ Template.exampleTemplate.rendered = function () {
       wrapper: this.find('.slide-show'),
       slides: this.findAll('.slide-show .slide'),
       controls: this.findAll('.slide-show .next-prev-btns'),
-      simultaneousSlides: 2,
+      simultaneousSlides: 3,
       pagination: {
         wrapper: 'ul',
         wrapperClass: 'ul-class',
@@ -22,7 +22,7 @@ Template.exampleTemplate.rendered = function () {
       wrapper: this.find('.slide-show-2'),
       slides: this.findAll('.slide-show-2 .slide'),
       fadeType: 'slide',
-      simultaneousSlides: 2,
+      simultaneousSlides: 3,
       pagination: {
         wrapper: 'div',
         wrapperClass: 'ul-class-3',
@@ -63,7 +63,7 @@ Template.exampleTemplate.rendered = function () {
       controls: this.findAll('.slider-slides .next-prev-btns'),
       controlsBaseClass: 'next-prev-btns',
       fadeType: 'slide',
-      simultaneousSlides: 3
+      simultaneousSlides: 4
     }, {
       wrapper: this.find('.slider-slides-text-slides'),
       slides: this.findAll('.slider-slides-text-slides .text-slide')

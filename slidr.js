@@ -24,50 +24,6 @@ Slidr = function ( options ) {
 			that.pagination.init( viewOptions );
 		});
 
-		// Setup the tracker of that.slides.active to update automatically
-		Tracker.autorun(function () {
-
-			// The first view which gets passed is the primary view
-			viewOptions = that.views[0];
-
-			// Get the last slide, and the number of the last slide which takes simultaneousSlides
-			// into consideration
-			var lastSlide = viewOptions.slides.length;
-			var lastSlideWithSimultaneous = lastSlide - viewOptions.simultaneousSlides;
-
-			// If the active slide is less than 0, it don't exist.
-			// Either set it back to 0, or go to the last item (depending on whether
-			// it's a carousel or not)
-			if (that.slides.active.get() < 0) {
-				if (that.carousel)
-					that.slides.active.set( lastSlideWithSimultaneous );
-				else
-					that.slides.active.set( 0 );
-			}
-
-			// If the active slide is higher than the last slide, handle that.
-			if (that.slides.active.get() >= lastSlideWithSimultaneous ) {
-				// Is it a carousel and the active slide is actually higher than the very
-				// lastSlideWithSimultaneous slide? Then go back to the first slide.
-				if (that.carousel && that.slides.active.get() > lastSlideWithSimultaneous) {
-					that.slides.active.set( 0 );
-				}
-				else {
-					// So, we've entered a slide which is higher than the last one and 
-					// the slideshow is not a carousel. This means we can stop the timers?
-					that.slides.active.set( lastSlideWithSimultaneous );
-					if (!that.carousel)
-						that.timer.stop();
-				}
-			}
-
-			// console.log('running tracker:', that.slides.active.get() );
-
-			// Update all slides!
-			that.slides.updateVisibility( that.views );
-
-		});
-
 	};
 
 	that.slides.fadeIn = function( viewOptions ) {
@@ -127,8 +83,60 @@ Slidr = function ( options ) {
 		_.each(views, that.slides.setupVisibility );
 	}, 50, true );
 
-	// Holder of the currently active slide
-	that.slides.active = new ReactiveVar( 0 );
+	that.slides.active = {
+		currentValue: 0
+	};
+
+	that.slides.active.get = function() {
+		return that.slides.active.currentValue;
+	};
+
+	that.slides.active.set = function( value ) {
+		check( value, Number );
+		that.slides.active.currentValue = that.slides.active.check( value );
+		return that.slides.updateVisibility( that.views );
+	};
+
+	that.slides.active.check = function( value ) {
+
+		// The first view which gets passed is the primary view
+		viewOptions = that.views[0];
+
+		// Get the last slide, and the number of the last slide which takes simultaneousSlides
+		// into consideration
+		var lastSlide = viewOptions.slides.length;
+		var lastSlideWithSimultaneous = lastSlide - viewOptions.simultaneousSlides;
+
+		// If the active slide is less than 0, it don't exist.
+		// Either set it back to 0, or go to the last item (depending on whether
+		// it's a carousel or not)
+		if (value < 0) {
+			if (that.carousel)
+				return lastSlideWithSimultaneous;
+			else
+				return 0;
+		}
+
+		// If the active slide is higher than the last slide, handle that.
+		if (value >= lastSlideWithSimultaneous ) {
+			// Is it a carousel and the active slide is actually higher than the very
+			// lastSlideWithSimultaneous slide? Then go back to the first slide.
+			if (that.carousel && value > lastSlideWithSimultaneous) {
+				return 0;
+			}
+			else {
+				// So, we've entered a slide which is higher than the last one and 
+				// the slideshow is not a carousel. This means we can stop the timers?
+				if (!that.carousel)
+					that.timer.stop();
+				return lastSlideWithSimultaneous;
+			}
+		}
+
+		return value;
+
+	};
+
 
 
 	// ___
