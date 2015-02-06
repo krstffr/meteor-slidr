@@ -103,8 +103,29 @@ Slidr = function ( options ) {
 	that.slides.slide = function( viewOptions ) {
 
 		// Check if slides are already wrapped, if not: wrap!
-		if ($(viewOptions.wrapper).find('.slider-inner-wrapper').length <1 )
+		// Also: add swipe functionality
+		if ($(viewOptions.wrapper).find('.slider-inner-wrapper').length <1 ) {
+
+			// Wrap the inner els
 			$(viewOptions.slides).wrapAll('<div class="slider-inner-wrapper">');
+
+			// Add the pan event
+			var innerWrapper = $(viewOptions.wrapper).find('.slider-inner-wrapper')[0];
+			var swipeableInnerWrapper = new Hammer( innerWrapper );
+			console.log('init hammer!');
+			swipeableInnerWrapper.on('panleft panright', _.debounce( function( e ) {
+				
+				if (e.type === 'panleft')
+					that.slides.active.set( that.slides.active.get()+1 );
+				
+				else
+					that.slides.active.set( that.slides.active.get()-1 );
+
+				return that.timer.stop();
+
+			}, 150, true) );
+
+		}
 
 		// Set the width of the slides … 
 		$(viewOptions.slides)
