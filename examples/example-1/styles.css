@@ -67,6 +67,9 @@ body {
 	margin: 2em 0;
 }
 
+.slide-show-2 {
+	overflow: hidden;
+}
 .slide-show-2 .slide {
 	display: block;
 	float: left;

@@ -14,6 +14,50 @@ Slidr = function ( options ) {
 	// Handling of the slides
 	that.slides = {};
 
+	that.slides.lastSimultaneousValue = {};
+
+	that.slides.lastSimultaneousValue.values = {};
+
+	that.slides.lastSimultaneousValue.get = function( _id ) {
+		return that.slides.lastSimultaneousValue.values[_id];
+	};
+
+	that.slides.lastSimultaneousValue.set = function( _id, val ) {
+		that.slides.lastSimultaneousValue.values[_id] = _.clone( val );
+		return that.slides.lastSimultaneousValue.get( _id );
+	};
+
+
+	// Method for getting the value of simultaneousSlides (either
+	// from a passed function or from just the stored value)
+	that.slides.getSimultaneousSlides = function( viewOptions ) {
+
+		// If simultaneousSlides is a function, do this!
+		if (typeof viewOptions.simultaneousSlides === 'function') {
+
+			var simValue = viewOptions.simultaneousSlides();
+
+			// Make sure we have a cached val of the last value!
+			if (!that.slides.lastSimultaneousValue.get( viewOptions._id ))
+				that.slides.lastSimultaneousValue.set( viewOptions._id, simValue );
+
+			// If the cached val is not the same as the previous one,
+			// we need to re-init the pagination (and update the last value)
+			if ( that.slides.lastSimultaneousValue.get( viewOptions._id ) !== simValue ) {
+				that.slides.lastSimultaneousValue.set( viewOptions._id, simValue );
+				that.pagination.init( viewOptions );
+			}
+			
+			// Return the value
+			return simValue;
+
+		}
+
+		// Else just return the value
+		return viewOptions.simultaneousSlides;
+
+	};
+
 	// This is for view with the "slide" fadeType.
 	// They need to update their size on browser window resize
 	that.slides.bindWindowResizeEvents = function( viewOptions ) {
@@ -47,7 +91,7 @@ Slidr = function ( options ) {
 		$(viewOptions.slides).hide();
 
 		// Show the first + simultaneousSlides slides
-		var ss = viewOptions.simultaneousSlides;
+		var ss = that.slides.getSimultaneousSlides( viewOptions );
 		var startSlideIndex = that.slides.active.get();
 
 		$(viewOptions.slides)
@@ -64,7 +108,7 @@ Slidr = function ( options ) {
 
 		// Set the width of the slides … 
 		$(viewOptions.slides)
-		.width( $(viewOptions.wrapper).width() / viewOptions.simultaneousSlides );
+		.width( $(viewOptions.wrapper).width() / that.slides.getSimultaneousSlides( viewOptions ) );
 
 		// …and the inner wrapper, also animate the slide!
 		$(viewOptions.wrapper)
@@ -120,7 +164,7 @@ Slidr = function ( options ) {
 		// Get the last slide, and the number of the last slide which takes simultaneousSlides
 		// into consideration
 		var lastSlide = viewOptions.slides.length;
-		var lastSlideWithSimultaneous = lastSlide - viewOptions.simultaneousSlides;
+		var lastSlideWithSimultaneous = lastSlide - that.slides.getSimultaneousSlides( viewOptions );
 
 		// If the active slide is less than 0, it don't exist.
 		// Either set it back to 0, or go to the last item (depending on whether
@@ -191,12 +235,25 @@ Slidr = function ( options ) {
 	// Holder for all the current pagination wrapper (could be one for each view)
 	that.pagination.wrappers = [];
 
+	that.pagination.wrappersGetById = function( _id ) {
+		return _( that.pagination.wrappers ).findWhere({ _id: _id });
+	};
+
 	// Setup pagination for a view
 	that.pagination.init = function( viewOptions ) {
 
 		// If there is no pagination object set, stop here.
 		if (!viewOptions.pagination)
 			return false;
+
+		// Check if there is a currently created pagination, if so: delete it and create a new one!
+		var currentWrapper = that.pagination.wrappersGetById( viewOptions._id );
+		if ( currentWrapper ) {
+			// Remove the element from the DOM…
+			$(currentWrapper.wrapper).remove();
+			// …and from the pagination.wrappers array
+			that.pagination.wrappers = _.reject( that.pagination.wrappers, function( wrapper ){ return wrapper._id === viewOptions._id; });
+		}
 
 		// Create the wrapper pagination element
 		var wrapper = $('<'+viewOptions.pagination.wrapper+' />')
@@ -206,7 +263,7 @@ Slidr = function ( options ) {
 		var indicators = [];
 
 		var lastSlide = viewOptions.slides.length;
-		var lastSlideWithSimultaneous = lastSlide - viewOptions.simultaneousSlides;
+		var lastSlideWithSimultaneous = lastSlide - that.slides.getSimultaneousSlides( viewOptions );
 
 		// Create the indicators
 		_.each(viewOptions.slides, function( slide, index ){
@@ -241,10 +298,14 @@ Slidr = function ( options ) {
 
 		// Add the wrapper and some other dat to the pagination.wrappers array
 		that.pagination.wrappers.push({
+			_id: viewOptions._id,
 			wrapper: $(wrapper)[0],
 			indicatorSelector: viewOptions.pagination.indicators,
 			indicatorClass: viewOptions.pagination.indicatorsClass
 		});
+
+		// Updat the active pagination item as well!
+		that.pagination.setActive();
 
 	};
 
@@ -305,7 +366,7 @@ Slidr = function ( options ) {
 			return false;
 		
 		var lastSlide = viewOptions.slides.length;
-		var lastSlideWithSimultaneous = lastSlide - viewOptions.simultaneousSlides;
+		var lastSlideWithSimultaneous = lastSlide - that.slides.getSimultaneousSlides( viewOptions );
 		var currentSlide = that.slides.active.get();
 
 		// Set the active class, and remove it from all elements
@@ -370,7 +431,9 @@ Slidr = function ( options ) {
 				errors.push('viewOptions.controls must contain only two elements!');
 		}
 		if ( viewOptions.simultaneousSlides )
-			check( viewOptions.simultaneousSlides, Number );
+			// simultaneousSlides can be a function, if not it must be a number!
+			if (typeof viewOptions.simultaneousSlides !== 'function')
+				check( viewOptions.simultaneousSlides, Number );
 		if ( viewOptions.fadeType )
 			check( viewOptions.fadeType, String );
 		if ( viewOptions.fadeDuration )
@@ -406,6 +469,7 @@ Slidr = function ( options ) {
 
 	that.setup.setViewOptionDefault = function ( viewOptions ) {
 		
+		viewOptions._id = Meteor.uuid();
 		viewOptions.simultaneousSlides = viewOptions.simultaneousSlides || 1;
 		viewOptions.fadeType = viewOptions.fadeType                     || 'fadeIn';
 		viewOptions.fadeDuration = viewOptions.fadeDuration             || 250;

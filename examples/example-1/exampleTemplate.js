@@ -1,6 +1,8 @@
 if (Meteor.isServer)
 	return false;
 
+simSlides = new ReactiveVar( 3 );
+
 Template.exampleTemplate.rendered = function () {
 
   var options = {
@@ -22,7 +24,9 @@ Template.exampleTemplate.rendered = function () {
       wrapper: this.find('.slide-show-2'),
       slides: this.findAll('.slide-show-2 .slide'),
       fadeType: 'slide',
-      simultaneousSlides: 3,
+      simultaneousSlides: function() {
+        return simSlides.get();
+      },
       pagination: {
         wrapper: 'div',
         wrapperClass: 'ul-class-3',
@@ -74,3 +78,19 @@ Template.exampleTemplate.rendered = function () {
 
 
 };
+
+Template.exampleTemplate.events({
+  'submit .change-simultaneous-slides': function ( e, tmpl ) {
+    
+    e.preventDefault();
+    
+    var input = parseInt( $(tmpl.find('input')).val(), 10 );
+    if (input === 0)
+      input = 1;
+    if (input > 3)
+      input = 3;
+
+    simSlides.set( input );
+
+  }
+});
