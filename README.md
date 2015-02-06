@@ -66,7 +66,11 @@ Template.exampleTemplate.rendered = function () {
       // Remember to set the inner elements (slides) CSS to
       // float: left; and display: block;
       fadeType: 'slide',
-      simultaneousSlides: 2,
+      // simultaneousSlides can also be a function, mainly used for returning
+      // reactive vars (so the number of simultaneousSlides will be reactive!)
+      simultaneousSlides: function() {
+        return Session.get('simSlides');
+      },
       pagination: {
         wrapper: 'ul',
         wrapperClass: 'ul-class',
