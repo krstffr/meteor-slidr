@@ -1,7 +1,7 @@
 Package.describe({
 	name: "krstffr:slidr",
   summary: "A simple slideshow (with support for multiple views).",
-	version: "1.0.5",
+	version: "1.0.6",
 	git: "https://github.com/krstffr/meteor-slidr.git"
 });
 
