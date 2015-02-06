@@ -112,7 +112,6 @@ Slidr = function ( options ) {
 			// Add the pan event
 			var innerWrapper = $(viewOptions.wrapper).find('.slider-inner-wrapper')[0];
 			var swipeableInnerWrapper = new Hammer( innerWrapper );
-			console.log('init hammer!');
 			swipeableInnerWrapper.on('panleft panright', _.debounce( function( e ) {
 				
 				if (e.type === 'panleft')

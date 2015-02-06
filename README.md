@@ -1,13 +1,15 @@
 # krstffr:slidr #
 
-A super simple slideshow thing for Meteor. Here's how you use it:
+A simple slideshow thing for Meteor. Supports multiple views per slideshow, fade/slide types and hammer.js support for slide type slideshows.
+
+Here's how you use it:
 
 ## Basic usage ##
 
 1. Install it. `meteor add krstffr:slidr`
 1. Create a wrapper DOM element for your slideshow (or more than one if you fancy more views!)
 1. Place some slides inside the slidesshow(s) (can be whatever DOM elements you want).
-1. In a meteor.rendered() method, put the initiation of the slideshow like this:
+1. In meteor.rendered( fn ) (or wherever you see fit), put the initiation of the slideshow like this:
 
 ```javascript
 
@@ -126,3 +128,4 @@ The HTML could look like this:
 * Currently all pagination items will contain 1, 2, 3 etc or a specific text the user sets. This should probably be more verstaile, for example: a,b,c etc.
 * Create tests!
 * Create a better looking example.
+* Probably explain the "supports multiple views per slideshow" in more detail!
