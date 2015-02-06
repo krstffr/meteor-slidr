@@ -14,12 +14,27 @@ Slidr = function ( options ) {
 	// Handling of the slides
 	that.slides = {};
 
+	// This is for view with the "slide" fadeType.
+	// They need to update their size on browser window resize
+	that.slides.bindWindowResizeEvents = function( viewOptions ) {
+
+		// Only "slide" fadeType should be affected
+		if (viewOptions.fadeType !== 'slide')
+			return false;
+
+		$(window).on('resize', _.throttle( function() {
+			that.slides.slide( viewOptions );
+		}, 250 ) );
+
+	};
+
 	// Init all slides
 	that.slides.init = function( views ) {
 
 		// For all differet views, setup visibility and init buttons
 		_.each(views, function( viewOptions ){
 			that.slides.setupVisibility( viewOptions );
+			that.slides.bindWindowResizeEvents( viewOptions );
 			that.nextPrevBtns.init( viewOptions );
 			that.pagination.init( viewOptions );
 		});
