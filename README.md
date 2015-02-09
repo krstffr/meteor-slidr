@@ -70,6 +70,8 @@ Template.exampleTemplate.rendered = function () {
       fadeType: 'slide',
       // simultaneousSlides can also be a function, mainly used for returning
       // reactive vars (so the number of simultaneousSlides will be reactive!)
+      // This value is tracked by a Tracker.autorun fn which should update any
+      // changes to the slideshow (based on simultaneousSlides()) in real time.
       simultaneousSlides: function() {
         return Session.get('simSlides');
       },
@@ -127,5 +129,5 @@ The HTML could look like this:
 
 * Currently all pagination items will contain 1, 2, 3 etc or a specific text the user sets. This should probably be more verstaile, for example: a,b,c etc.
 * Create tests!
-* Create a better looking example.
+* Create better looking examples.
 * Probably explain the "supports multiple views per slideshow" in more detail!
