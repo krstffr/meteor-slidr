@@ -14,44 +14,13 @@ Slidr = function ( options ) {
 	// Handling of the slides
 	that.slides = {};
 
-	that.slides.lastSimultaneousValue = {};
-
-	that.slides.lastSimultaneousValue.values = {};
-
-	that.slides.lastSimultaneousValue.get = function( _id ) {
-		return that.slides.lastSimultaneousValue.values[_id];
-	};
-
-	that.slides.lastSimultaneousValue.set = function( _id, val ) {
-		that.slides.lastSimultaneousValue.values[_id] = _.clone( val );
-		return that.slides.lastSimultaneousValue.get( _id );
-	};
-
-
 	// Method for getting the value of simultaneousSlides (either
 	// from a passed function or from just the stored value)
 	that.slides.getSimultaneousSlides = function( viewOptions ) {
 
 		// If simultaneousSlides is a function, do this!
-		if (typeof viewOptions.simultaneousSlides === 'function') {
-
-			var simValue = viewOptions.simultaneousSlides();
-
-			// Make sure we have a cached val of the last value!
-			if (!that.slides.lastSimultaneousValue.get( viewOptions._id ))
-				that.slides.lastSimultaneousValue.set( viewOptions._id, simValue );
-
-			// If the cached val is not the same as the previous one,
-			// we need to re-init the pagination (and update the last value)
-			if ( that.slides.lastSimultaneousValue.get( viewOptions._id ) !== simValue ) {
-				that.slides.lastSimultaneousValue.set( viewOptions._id, simValue );
-				that.pagination.init( viewOptions );
-			}
-			
-			// Return the value
-			return simValue;
-
-		}
+		if (typeof viewOptions.simultaneousSlides === 'function')
+			return viewOptions.simultaneousSlides();
 
 		// Else just return the value
 		return viewOptions.simultaneousSlides;
@@ -100,7 +69,16 @@ Slidr = function ( options ) {
 
 	};
 
-	that.slides.slide = function( viewOptions ) {
+	that.slides.slideResetPosition = function( viewOptions ) {
+
+		// …and the inner wrapper, also animate the slide!
+		$(viewOptions.wrapper)
+		.find('.slider-inner-wrapper')
+		.css({ marginLeft: -$(viewOptions.slides).outerWidth() * that.slides.active.get() });
+
+	};
+
+	that.slides.slideSetupSizes = function( viewOptions ) {
 
 		// Check if slides are already wrapped, if not: wrap!
 		// Also: add swipe functionality
@@ -133,7 +111,17 @@ Slidr = function ( options ) {
 		// …and the inner wrapper, also animate the slide!
 		$(viewOptions.wrapper)
 		.find('.slider-inner-wrapper')
-		.width( $(viewOptions.slides).outerWidth() * $(viewOptions.slides).length + 10 )
+		.width( $(viewOptions.slides).outerWidth() * $(viewOptions.slides).length + 10 );
+
+	};
+
+	that.slides.slide = function( viewOptions ) {
+
+		that.slides.slideSetupSizes( viewOptions );
+
+		// Animate the slide!
+		$(viewOptions.wrapper)
+		.find('.slider-inner-wrapper')
 		.animate({
 			marginLeft: -$(viewOptions.slides).outerWidth() * that.slides.active.get()-1
 		}, 150);
@@ -452,8 +440,18 @@ Slidr = function ( options ) {
 		}
 		if ( viewOptions.simultaneousSlides )
 			// simultaneousSlides can be a function, if not it must be a number!
-			if (typeof viewOptions.simultaneousSlides !== 'function')
+			if (typeof viewOptions.simultaneousSlides !== 'function') {
 				check( viewOptions.simultaneousSlides, Number );
+			}
+			else {
+				// Start autotracking the value
+				Tracker.autorun(function () {
+					var simValue = viewOptions.simultaneousSlides();
+					that.pagination.init( viewOptions );
+					that.slides.slideSetupSizes( viewOptions );
+					that.slides.slideResetPosition( viewOptions );
+				});
+			}
 		if ( viewOptions.fadeType )
 			check( viewOptions.fadeType, String );
 		if ( viewOptions.fadeDuration )
@@ -506,14 +504,14 @@ Slidr = function ( options ) {
 
 		// Map over all the views
 		return _.map(views, function( viewOptions ){
+
+			// Setup default view options
+			viewOptions = that.setup.setViewOptionDefault( viewOptions );
 			
 			// Make sure there are no errors which the user has passed
 			var setupErrors = that.setup.checkViewOptions( viewOptions );
 			if (setupErrors)
 				throw new Error(setupErrors);
-
-			// Setup default view options
-			viewOptions = that.setup.setViewOptionDefault( viewOptions );
 
 			return viewOptions;
 		
