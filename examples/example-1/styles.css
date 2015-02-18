@@ -1,96 +1,78 @@
-.li-class--active {
-	color: #f00;
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
-.li-class-2--active {
-	color: #f0f;
-	font-weight: bold;
+body {
+	padding: 0;
+	margin: 0;
+	font-size: 17px;
+	line-height: 1.4;
+	font-family: 'Helvetica', sans-serif;
 }
 
-.ul-class-3 {
-	text-align: center;
-}
-.li-class-3 {
-	font-size: 2em;
-	display: inline-block;
-	opacity: 0.2;
-}
-.li-class-3--active {
-	opacity: 1;
+h1 {
+	color: white;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 800;
+	letter-spacing: -3px;
+	text-shadow: 0 10px 40px rgba(0,0,0,0.1);
 }
 
-.next-prev-btns--inactive {
-	opacity: 0.1;
-	pointer-events: none;
-}
-
-body {
+h1, h2, h3, p {
 	margin: 0;
 	padding: 0;
 }
-.slider-slides {
-	width: 75%;
-	margin: 0 auto;
-	display: block;
+
+.slideshow-first {
 	position: relative;
 }
-.slider-slides .slides {
-	overflow: hidden;
-}
-.slider-slides .slide {
-	display: block;
-	float: left;
-	background: #eee;
-	padding: 1em 0 0.7em;
-	border-right: 1px solid white;
+
+.slideshow-first h1 {
+	font-size: 5em;
 	text-align: center;
+	padding: 3.2em 0 0.2em;
 }
-.slider-slides .next-prev-btns {
+
+.slideshow-first ul {
+	width: 600px;
+	margin: 0 auto;
+	display: block;
+}
+
+.slideshow-first li {
+	font-size: 1.3em;
+	padding: 0 0 0.1em;
+}
+
+.slideshow-first__slide {
+	width: 100%;
+	background: center bottom;
+	min-height: 650px;
+	background-size: cover;
+}
+
+.slideshow-first__slide--three h1 {
+	padding-top: 1.7em;
+}
+
+.slideshow-first__controls__control {
 	position: absolute;
-	bottom: 0.5em;
-	left: -2em;
 	cursor: pointer;
-	background: yellow;
-	color: black;
-	padding: 0.3em;
-}
-.slider-slides .next-prev-btns:hover {
-	color: red;
-}
-.slider-slides .next-prev-btns:last-child {
-	left: auto;
-	right: -2em;
-}
-.slider-slides-text-slides {
-	text-align: center;
-	font-weight: bold;
-	margin: 2em 0;
+	font-size: 2em;
+	padding: 1em;
+	bottom: 0;
+	right: 0;
 }
 
-.slide-show-2 {
-	overflow: hidden;
-}
-.slide-show-2 .slide {
-	display: block;
-	float: left;
-	
-	background: #ffffff; /* Old browsers */
-	background: -moz-linear-gradient(-45deg,  #ffffff 0%, #7db9e8 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#ffffff), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(-45deg,  #ffffff 0%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(-45deg,  #ffffff 0%,#7db9e8 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(-45deg,  #ffffff 0%,#7db9e8 100%); /* IE10+ */
-	background: linear-gradient(135deg,  #ffffff 0%,#7db9e8 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#7db9e8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-
-	border-top: 3px solid #ddd;
-	border-bottom: 3px solid #ddd;
-	padding: 2em 0;
-	text-align: center;
+.slideshow-first__controls__control:hover {
+	color: white;
 }
 
-hr {
-	margin: 6em 4em;
-	border: none;
-	border-top: 3px dashed #eee;
+.slideshow-first__controls__control:first-child {
+	left: 0;
+	right: auto;
 }
