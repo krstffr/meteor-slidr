@@ -85,7 +85,7 @@ Template.exampleTemplate.rendered = function () {
   };
   
   // Here the slideshow is actually created!
-  var slideShow = new slidr( slideShowOptions );
+  var slideShow = new Slidr( slideShowOptions );
 
 };
 
