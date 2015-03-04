@@ -123,7 +123,7 @@ Slidr = function ( options ) {
 		$(viewOptions.wrapper)
 		.find('.slider-inner-wrapper')
 		.animate({
-			marginLeft: -$(viewOptions.slides).outerWidth() * that.slides.active.get()-1
+			marginLeft: -$(viewOptions.slides).outerWidth() * that.slides.active.get()
 		}, 150);
 
 	};
