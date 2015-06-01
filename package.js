@@ -1,7 +1,7 @@
 Package.describe({
 	name: "krstffr:slidr",
   summary: "A simple slideshow (with support for multiple views).",
-	version: "1.0.10",
+	version: "1.1.0",
 	git: "https://github.com/krstffr/meteor-slidr.git"
 });
 
@@ -9,11 +9,11 @@ Package.onUse(function (api) {
 
 	api.versionsFrom("METEOR@0.9.0");
 
-	api.use(['jquery', 'underscore', 'hammer:hammer@2.0.4'], 'client');
+	api.use(["jquery", "underscore", "chriswessels:hammer@4.0.1"], "client");
 
-  api.addFiles('slidr.js', 'client');
+  api.addFiles("slidr.js", "client");
 
   // The main object.
-  api.export('Slidr', 'client');
+  api.export("Slidr", "client");
 
 });
