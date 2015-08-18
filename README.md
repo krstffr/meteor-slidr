@@ -22,6 +22,12 @@ Template.exampleTemplate.rendered = function () {
     // Optional: Should the slideshow restart at the first element
     // if the user clicks "next" at the last element?
     carousel: true,
+    // Optional: Add a callback which will get called whenever the active 
+    // slide updates in the view. If you have multiple view a function wrapped
+    // in a debounce is recommended!
+    slideCallback: _.debounce( function () {
+      console.log('A global slide callback, gets called whenever this slidr slides. Protop: debounce it to avoid multiple simultaneous calls!');
+    }, 50, true ),
     // Holder of all your views. Will most often only contain one
     // view object!
     views: [{
@@ -55,6 +61,11 @@ Template.exampleTemplate.rendered = function () {
         // If you do not want the indicators to contain numbers,
         // set your own text content here!
         paginationContent: '•'
+      },
+      // Optional: Add a callback which will get called with this views  
+      // viewoptions whenever the view gets updated.
+      slideCallback: function( viewOptions ) {
+        return console.log('This is a local slide callback, and this is the the wrapper element for this view: ', viewOptions.wrapper );
       }
     }, {
       // Here's another slideshow view which is bound to the first one

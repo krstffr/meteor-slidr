@@ -143,6 +143,12 @@ Slidr = function ( options ) {
 		// Update the prev/next buttons
 		that.nextPrevBtns.updateVisibility( viewOptions );
 
+		if (Match.test( viewOptions.slideCallback, Function ))
+			viewOptions.slideCallback( viewOptions );
+
+		if (Match.test( that.globalSlideCallback, Function ))
+			that.globalSlideCallback();
+
 	};
 
 	// Method for updating the visibilty of the slides
@@ -526,9 +532,12 @@ Slidr = function ( options ) {
 			check( options.timer, Number );
 		if ( options.carousel )
 			check( options.carousel, Boolean );
+		if ( options.slideCallback )
+			check( options.slideCallback, Function );
 		
 		that.timer.time = options.timer  || 6500;
 		that.carousel = options.carousel;
+		that.globalSlideCallback = options.slideCallback;
 
 		return true;
 

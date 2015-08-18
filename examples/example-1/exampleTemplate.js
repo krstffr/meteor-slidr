@@ -5,9 +5,12 @@ simSlides = new ReactiveVar( 3 );
 
 Template.exampleTemplate.rendered = function () {
 
-  var options = {
+  new Slidr({
     timer: 1500,
     carousel: true,
+    slideCallback: _.debounce( function () {
+      console.log('A global slide callback, gets called whenever this slidr slides. Protop: debounce it to avoid multiple simultaneous calls!');
+    }, 50, true ),
     views: [{
       wrapper: this.find('.slide-show'),
       slides: this.findAll('.slide-show .slide'),
@@ -19,6 +22,9 @@ Template.exampleTemplate.rendered = function () {
         showControls: false,
         indicators: 'li',
         indicatorsClass: 'li-class'
+      },
+      slideCallback: function( viewOptions ) {
+        return console.log('This is a local slide callback, and this is the the wrapper element for this view: ', viewOptions.wrapper );
       }
     }, {
       wrapper: this.find('.slide-show-2'),
@@ -35,11 +41,9 @@ Template.exampleTemplate.rendered = function () {
         paginationContent: '•'
       }
     }]
-  };
+  });
 
-  var slideShow = new Slidr( options );
-
-  var slideShow2 = new Slidr({
+  new Slidr({
     timer: 350,
     carousel: false,
     views: [{
@@ -58,7 +62,7 @@ Template.exampleTemplate.rendered = function () {
     }]
   });
 
-  var slideShow3 = new Slidr({
+  new Slidr({
     timer: 4500,
     carousel: false,
     views: [{
