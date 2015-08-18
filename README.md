@@ -26,7 +26,7 @@ Template.exampleTemplate.rendered = function () {
     // slide updates in the view. If you have multiple view a function wrapped
     // in a debounce is recommended!
     slideCallback: _.debounce( function () {
-      console.log('A global slide callback, gets called whenever this slidr slides. Protop: debounce it to avoid multiple simultaneous calls!');
+      console.log('A global slide callback, gets called whenever this slidr slides. Protip: debounce it to avoid multiple simultaneous calls!');
     }, 50, true ),
     // Holder of all your views. Will most often only contain one
     // view object!
