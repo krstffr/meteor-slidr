@@ -90,7 +90,16 @@ Template.exampleTemplate.rendered = function () {
         wrapper: 'ul',
         wrapperClass: 'ul-class',
         indicators: 'li',
-        indicatorsClass: 'li-class'
+        indicatorsClass: 'li-class',
+        // Optional: paginationContent can also be a function.
+        // This function takes a "slide" argument which is the slide DOM el
+        // which you can use inside the function to get some value out.
+        paginationContent: function ( slide ) {
+          return $(slide).text();
+        },
+        // Optional: If you want the pagination BEFORE the slides, just set
+        // paginationPlacement to 'before'
+        paginationPlacement: 'before'
       }
     }]
   };
