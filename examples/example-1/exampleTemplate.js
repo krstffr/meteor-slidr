@@ -21,7 +21,10 @@ Template.exampleTemplate.rendered = function () {
         wrapperClass: 'ul-class',
         showControls: false,
         indicators: 'li',
-        indicatorsClass: 'li-class'
+        indicatorsClass: 'li-class',
+        paginationContent: function ( slide ) {
+          return $(slide).text();
+        }
       },
       slideCallback: function( viewOptions ) {
         return console.log('This is a local slide callback, and this is the the wrapper element for this view: ', viewOptions.wrapper );
@@ -38,7 +41,8 @@ Template.exampleTemplate.rendered = function () {
         wrapperClass: 'ul-class-3',
         indicators: 'div',
         indicatorsClass: 'li-class-3',
-        paginationContent: '•'
+        paginationContent: '•',
+        paginationPlacement: 'before'
       }
     }]
   });

@@ -286,8 +286,13 @@ Slidr = function ( options ) {
 				return false;
 
 			var indicatorText = index + 1;
-			if (viewOptions.pagination.paginationContent)
-				indicatorText = viewOptions.pagination.paginationContent;
+			if (viewOptions.pagination.paginationContent){
+				if ( Match.test(viewOptions.pagination.paginationContent, String) )
+					indicatorText = viewOptions.pagination.paginationContent;
+				else{
+					indicatorText = viewOptions.pagination.paginationContent( slide );
+				}
+			}
 
 			indicators.push(
 				$('<'+viewOptions.pagination.indicators+'/>')
@@ -308,7 +313,12 @@ Slidr = function ( options ) {
 		});
 
 		// Append the wrapper to the containing slideshow element
-		$( viewOptions.wrapper ).append( wrapper );
+		if (viewOptions.pagination.paginationPlacement && viewOptions.pagination.paginationPlacement === 'before') {
+			$( viewOptions.wrapper ).prepend( wrapper );
+		}
+		else {
+			$( viewOptions.wrapper ).append( wrapper );
+		}
 
 		// Add the wrapper and some other dat to the pagination.wrappers array
 		that.pagination.wrappers.push({
@@ -479,8 +489,14 @@ Slidr = function ( options ) {
 				check( viewOptions.pagination.wrapperClass, String );
 			if ( viewOptions.pagination.indicatorsClass )
 				check( viewOptions.pagination.indicatorsClass, String );
-			if ( viewOptions.pagination.paginationContent )
-				check( viewOptions.pagination.paginationContent, String );
+			if ( viewOptions.pagination.paginationContent ){
+				if (!Match.test( viewOptions.pagination.paginationContent, String ) &&
+					!Match.test( viewOptions.pagination.paginationContent, Function )){
+					throw new Error('paginationContent must be a String or Function!');
+				}
+			}
+			if ( viewOptions.pagination.paginationPlacement )
+				check( viewOptions.pagination.paginationPlacement, String );
 
 		}
 		
